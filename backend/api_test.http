@@ -1,4 +1,4 @@
-# GET http://localhost:5000/api/stores
+GET http://localhost:5000/api/stores
 
 POST http://localhost:5000/api/stores/ HTTP/1.1
 content-type: application/json
