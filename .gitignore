@@ -132,8 +132,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# CSV files
-*.csv
-
 # API Test file
-backend/api_test.http
+api_test.http
