@@ -13,10 +13,11 @@ def get_stores():
     stores = mongo.db.stores
 
     output = []
+    cursor = stores.find()
 
-    for q in stores.find():
-        q.pop("_id")
-        output.append(q)
+    for document in cursor:
+        document.pop("_id")
+        output.append(document)
     return jsonify(output)
 
 
