@@ -1,19 +1,11 @@
-from flask import Flask, request, jsonify
-from flask_pymongo import PyMongo
-
-app = Flask(__name__)
-app.config["MONGO_DBNAME"] = "tarantula_service"
-app.config["MONGO_URI"] = "mongodb://localhost:27017/tarantula_service"
-
-mongo = PyMongo(app)
+from flask import Blueprint, jsonify, request
+from app import mongo
 
 
-@app.route("/")
-def index():
-    return "Tarantula service is working!"
+stores = Blueprint("users", __name__)
 
 
-@app.route("/api/stores", methods=["GET"])
+@stores.route("/api/stores", methods=["GET"])
 def get_stores():
     stores = mongo.db.stores
 
@@ -26,7 +18,7 @@ def get_stores():
     return jsonify(output)
 
 
-@app.route("/api/stores/", methods=["POST"])
+@stores.route("/api/stores", methods=["POST"])
 def insert_store():
     stores = mongo.db.stores
 
@@ -82,8 +74,3 @@ def insert_store():
     except KeyError:
         output = {"message": "store name or start_url cannot be blank."}
         return jsonify(output)
-
-
-if __name__ == "__main__":
-    app.debug = True
-    app.run()
