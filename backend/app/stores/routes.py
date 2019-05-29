@@ -1,16 +1,16 @@
 from flask import Blueprint, jsonify, request
-from app import mongo
+from app.extensions import mongo
 
 
-stores = Blueprint("users", __name__)
+stores = Blueprint("stores", __name__)
 
 
 @stores.route("/api/stores", methods=["GET"])
 def get_stores():
-    stores = mongo.db.stores
+    store_collection = mongo.db.stores
 
     output = []
-    cursor = stores.find()
+    cursor = store_collection.find()
 
     for document in cursor:
         document.pop("_id")
@@ -20,7 +20,7 @@ def get_stores():
 
 @stores.route("/api/stores", methods=["POST"])
 def insert_store():
-    stores = mongo.db.stores
+    store_collection = mongo.db.stores
 
     try:
         name = request.json["name"]
@@ -28,7 +28,7 @@ def insert_store():
 
         if not name or not start_url:
             raise KeyError
-        elif stores.find({"name": name}).count() > 0:
+        elif store_collection.find({"name": name}).count() > 0:
             output = {"message": "store name matches existing document."}
             return jsonify(output)
         else:
@@ -41,7 +41,7 @@ def insert_store():
             bundle_product_names = request.json["bundle_product_names"]
             bundle_product_prices = request.json["bundle_product_prices"]
 
-            store_id = stores.insert(
+            store_id = store_collection.insert(
                 {
                     "name": name,
                     "start_url": start_url,
@@ -55,7 +55,7 @@ def insert_store():
                     "bundle_product_prices": bundle_product_prices,
                 }
             )
-            new_store = stores.find_one({"_id": store_id})
+            new_store = store_collection.find_one({"_id": store_id})
 
             output = {
                 "name": new_store["name"],
