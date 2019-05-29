@@ -13,8 +13,9 @@ pip install -r requirements.txt
 ## Usage
 
 Add a .env file to the root with the URI for the mongo.
+Add flask app variables to .flaskenv
 Start the backend flask server.
 
 ```bash
-python run.py
+flask run
 ```
