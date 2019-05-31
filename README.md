@@ -1,6 +1,6 @@
 # Tarantula Service
 
-Web crawler made using Flask, Mongo and React.
+Web crawler API made using Flask and MongoDB.
 
 ## Installation
 
